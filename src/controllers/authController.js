@@ -1,6 +1,5 @@
 // controllers/authController.js
 const { validationResult } = require('express-validator');
-const nodemailer = require('nodemailer');
 const AuthService = require('../services/AuthService');
 const UserError = require('../exceptions/UserError');
 

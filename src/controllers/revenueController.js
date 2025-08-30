@@ -1,4 +1,4 @@
-const SellerError = require("../exceptions/SellerError");
+// const SellerError = require("../exceptions/SellerError");
 const RevenuewService = require("../services/RevenuewService");
 
 

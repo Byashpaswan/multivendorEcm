@@ -12,7 +12,7 @@ class AuthService {
     async sendLoginOtp(email) {
         const SIGNING_PREFIX = "signing_";
 
-        // console.log("email",email)
+        console.log("email",email)
 
         if (email.startsWith(SIGNING_PREFIX)) {
             email = email.substring(SIGNING_PREFIX.length);
@@ -31,7 +31,7 @@ class AuthService {
         const verificationCode = new VerificationCode({ otp, email });
         await verificationCode.save();
 
-        const subject = "Zosh Bazaar Login/Signup OTP";
+        const subject = "CapitalMart Login/Signup OTP";
         const text = `Your login OTP is - ${otp}`;
         // console.log("email ------- ",email)
         await sendVerificationEmail(email, subject, text);

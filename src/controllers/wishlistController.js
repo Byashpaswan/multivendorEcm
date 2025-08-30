@@ -1,5 +1,4 @@
 const WishlistService = require("../services/WishllistService");
-const UserService = require("../services/UserService");
 const ProductService = require("../services/ProductService");
 
 class WishlistController {

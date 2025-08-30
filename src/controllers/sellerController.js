@@ -35,10 +35,10 @@ class SellerController {
       );
 
       // Step 3: Send verification email
-      const subject = "Zosh Bazaar Email Verification Code";
+      const subject = "CapitalMart Email Verification Code";
       const text =
-        "Welcome to Zosh Bazaar, verify your account using this link: ";
-      const frontendUrl = "http://localhost:3000/verify-seller/" + otp;
+        "Welcome to CapitalMart, verify your account using this link: ";
+      const frontendUrl = "https://capitalmart.netlify.app/verify-seller/" + otp;
       await sendVerificationEmail(
         req.body.email,
         subject,
