@@ -40,21 +40,21 @@ const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 async function sendVerificationEmail(to, subject, text) {
-    const msg = {
-        to,
-        from: '"CapitalMart" <no-reply@byas.paswan99@gmail.com>',
-        subject,
-        text,
-        html: `<p>${text}</p>`,
-    };
+  const msg = {
+    to,
+    from: 'byas.paswan99@gmail.com',   // ✅ must match verified sender in SendGrid
+    subject,
+    text,
+    html: `<p>${text}</p>`,
+  };
 
-    try {
-        await sgMail.send(msg);
-        console.log('Email sent successfully');
-    } catch (error) {
-        console.error('Error sending email:', error);
-        throw new Error('Failed to send email');
-    }
+  try {
+    await sgMail.send(msg);
+    console.log("Email sent successfully");
+  } catch (error) {
+    console.error("Error sending email:", error.response ? error.response.body : error);
+    throw new Error("Failed to send email");
+  }
 }
 
 module.exports = { sendVerificationEmail };
