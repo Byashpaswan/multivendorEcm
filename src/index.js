@@ -58,6 +58,11 @@ app.use("/api/reviews",reviewRouters)
 // chatboat
 app.use("/chat",chatboatRouters)
 
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send({ message: err.message });
+});
+
 const port = process.env.PORT || 8080;
 app.listen(port, async() => {
     await connectDB()

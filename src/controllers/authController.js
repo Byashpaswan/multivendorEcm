@@ -6,6 +6,7 @@ const UserError = require('../exceptions/UserError');
 class AuthController {
     async sentLoginOtp(req, res) {
         try {
+            console.log("req.body--", req.body);
             const email = req.body.email; 
             await AuthService.sendLoginOtp(email);
 

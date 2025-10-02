@@ -15,10 +15,11 @@ class AuthService {
         console.log("email",email)
 
         if (email.startsWith(SIGNING_PREFIX)) {
+            console.log("signing email", email);
             email = email.substring(SIGNING_PREFIX.length);
             const user = await User.findOne({ email }); 
 
-            if(!user) throw new UserError("user not founed with email : "+email);
+            if (!user) throw new UserError("user not found with email : " + email);
         }
 
         const existingVerificationCode = await VerificationCode.findOne({ email });
@@ -28,6 +29,7 @@ class AuthService {
         }
 
         const otp = generateOTP();
+        console.log("Generated OTP:", otp);
         const verificationCode = new VerificationCode({ otp, email });
         await verificationCode.save();
 
