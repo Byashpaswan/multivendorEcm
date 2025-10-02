@@ -16,7 +16,7 @@ async function sendVerificationEmail(to, subject, text) {
     });
 
     const mailOptions = {
-        from:  '"capitalMart" <no-reply@capitalmart.netlify.app>' ,  ///process.env.GMAIL_USER_EMAIL,
+        from:  '"capitalMart" <no-reply@byas.paswan99@gmail.com>' ,  ///process.env.GMAIL_USER_EMAIL,
         to,
         subject,
         text
