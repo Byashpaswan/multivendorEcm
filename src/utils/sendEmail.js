@@ -14,8 +14,16 @@ async function sendVerificationEmail(to, subject, text) {
         subject,
         text
     };
-
-    await transporter.sendMail(mailOptions);
+    console.log("Sending email to:", to);
+    console.log("Email subject:", subject);
+    console.log("Email text:", text);
+    try {
+        await transporter.sendMail(mailOptions);
+        console.log("Email sent successfully");
+    } catch (error) {
+        console.error("Error sending email:", error);
+        throw new Error("Failed to send email");
+    }
 }
 
 module.exports = { sendVerificationEmail };
