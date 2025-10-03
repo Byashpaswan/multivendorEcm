@@ -90,7 +90,7 @@ class PaymentService {
                 notify: {
                     email: true
                 },
-                callback_url: `http://localhost:5173/payment-success/${orderId}`,
+                callback_url: `https://capitalmart.netlify.app/payment-success/${orderId}`,
                 callback_method: 'get'
             };
 
@@ -111,14 +111,14 @@ class PaymentService {
             const session = await stripe.checkout.sessions.create({
                 payment_method_types: ['card'],
                 mode: 'payment',
-                success_url: `http://localhost:5173/payment-success/${orderId}`,
-                cancel_url: 'http://localhost:5173/payment-cancel',
+                success_url: `https://capitalmart.netlify.app/payment-success/${orderId}`,
+                cancel_url: 'https://capitalmart.netlify.app/payment-cancel',
                 line_items: [{
                     price_data: {
                         currency: 'usd',
                         unit_amount: amount * 100,
                         product_data: {
-                            name: 'zosh bazaar payment'
+                            name: 'capitalmart payment'
                         }
                     },
                     quantity: 1
