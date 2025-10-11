@@ -96,6 +96,20 @@ class SellerProductController {
       res.status(400).json({ error: error.message });
     }
   }
+
+  async getProductsByCategory(req,res){
+    try{
+      const category = req.params.category;
+      const products = await ProductService.getProductsByCategory(category);
+      res.status(200).json(products);
+    }catch(error){
+      res.status(400).json({ error: error.message });
+    }
+  }
+
+
 }
+
+
 
 module.exports = new SellerProductController();

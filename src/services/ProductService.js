@@ -181,6 +181,14 @@ class ProductService {
   async getProductBySellerId(sellerId) {
     return await Product.find({ seller: sellerId });
   }
+  async getProductsByCategory(category){
+    const categorydoc = await Category.findOne({categoryId:{ $regex: category, $options: "i" },level: 3});
+    if(!categorydoc){
+      return [];
+    }
+
+    return await Product.find({ category: categorydoc._id });
+  }
 }
 
 module.exports = new ProductService();
