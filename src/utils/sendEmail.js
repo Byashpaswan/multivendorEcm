@@ -61,57 +61,57 @@
 
 //---------------------------second new-------------
 
-// const SibApiV3Sdk = require("sib-api-v3-sdk");
+const SibApiV3Sdk = require("sib-api-v3-sdk");
 
-// const client = SibApiV3Sdk.ApiClient.instance;
-// client.authentications["api-key"].apiKey = process.env.BREVO_API_KEY;
+const client = SibApiV3Sdk.ApiClient.instance;
+client.authentications["api-key"].apiKey = process.env.BREVO_API_KEY;
 
-// const emailApi = new SibApiV3Sdk.TransactionalEmailsApi();
-
-// async function sendVerificationEmail(to, subject, text) {
-//   try {
-//     await emailApi.sendTransacEmail({
-//       to: [{ email: to }],
-//       sender: {
-//         email: "byas.paswan99@gmail.com", // must be verified in Brevo
-//         name: "Your App"
-//       },
-//       subject,
-//       htmlContent: `<p>${text}</p>`,
-//       textContent: text
-//     });
-
-//     console.log("Email sent successfully (Brevo)");
-//   } catch (error) {
-//     console.error(
-//       "Error sending email:",
-//       error.response?.body || error.message
-//     );
-//     throw new Error("Failed to send email");
-//   }
-// }
-
-// module.exports = { sendVerificationEmail };
-
-const nodemailer = require("nodemailer");
-
-const transporter = nodemailer.createTransport({
-  host: "smtp-relay.brevo.com",
-  port: 587,
-  auth: {
-    user: "apikey",
-    pass: process.env.BREVO_API_KEY
-  }
-});
+const emailApi = new SibApiV3Sdk.TransactionalEmailsApi();
 
 async function sendVerificationEmail(to, subject, text) {
-  await transporter.sendMail({
-    from: "byas.paswan99@gmail.com",
-    to,
-    subject,
-    text,
-    html: `<p>${text}</p>`
-  });
+  try {
+    await emailApi.sendTransacEmail({
+      to: [{ email: to }],
+      sender: {
+        email: "byas.paswan99@gmail.com", // must be verified in Brevo
+        name: "CapitalMart"
+      },
+      subject,
+      htmlContent: `<p>${text}</p>`,
+      textContent: text
+    });
+
+    console.log("Email sent successfully (Brevo)");
+  } catch (error) {
+    console.error(
+      "Error sending email:",
+      error.response?.body || error.message
+    );
+    throw new Error("Failed to send email");
+  }
 }
 
 module.exports = { sendVerificationEmail };
+
+// const nodemailer = require("nodemailer");
+
+// const transporter = nodemailer.createTransport({
+//   host: "smtp-relay.brevo.com",
+//   port: 587,
+//   auth: {
+//     user: "apikey",
+//     pass: process.env.BREVO_API_KEY
+//   }
+// });
+
+// async function sendVerificationEmail(to, subject, text) {
+//   await transporter.sendMail({
+//     from: "byas.paswan99@gmail.com",
+//     to,
+//     subject,
+//     text,
+//     html: `<p>${text}</p>`
+//   });
+// }
+
+// module.exports = { sendVerificationEmail };
