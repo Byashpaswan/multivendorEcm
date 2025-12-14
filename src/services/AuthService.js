@@ -13,6 +13,7 @@ class AuthService {
         const SIGNING_PREFIX = "signing_";
 
         console.log("email",email)
+    try{
 
         if (email.startsWith(SIGNING_PREFIX)) {
             console.log("signing email", email);
@@ -37,6 +38,11 @@ class AuthService {
         const text = `Your login OTP is - ${otp}`;
         // console.log("email ------- ",email)
         await sendVerificationEmail(email, subject, text);
+    }
+    catch(error){
+        console.log("eror occurs in :sendlogin",error)
+        return res.status(500).json({error:error.message})
+    }
     }
 
     async createUser(req) {
@@ -71,6 +77,9 @@ class AuthService {
     }
 
     async signin(req) {
+        try{
+
+        
         const { email, otp } = req;
 
         const user = await User.findOne({ email });
@@ -94,6 +103,12 @@ class AuthService {
             jwt: token,
             role: user.role
         };
+    }
+     catch(error){
+        console.log("error is in authservice:signin", error)
+        return res.status(400).json({error:error?.message})
+
+     }
     }
 
     async registeruser(req){
