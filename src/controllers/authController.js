@@ -55,6 +55,50 @@ class AuthController {
             return res.status(500).json({ error: "Internal Server Error" });
         }
     }
+    async registerUser(req,res){
+        try {
+            console.log("req.body in registering  --",req.body)
+          const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(400).json({ errors: errors.array() });
+            }  
+
+         const token = await AuthService.registeruser(req.body);
+            const authResponse = {
+                jwt: token,
+                message: "Register Success",
+                role: "ROLE_CUSTOMER",
+            };
+
+            return res.status(201).json(authResponse)
+
+        } catch (error) {
+            console.log("error is occurs:",error)
+            if (error instanceof Error) {
+                return res.status(400).json({ error: error.message });
+            }
+            return res.statu(500).json({error:"Internal Server Error"});
+            
+        }
+        
+
+    }
+
+    async login(req,res){
+         console.log("Loginin...");
+        try {
+            const authResponse = await AuthService.login(req.body);
+            console.log("auth response--", authResponse);
+            return res.status(200).json(authResponse);
+        } catch (error) {
+            if (error instanceof Error || error instanceof UserError) {
+                return res.status(400).json({ error: error.message });
+            }
+            return res.status(500).json({ error: "Internal Server Error" });
+        }
+
+
+    }
 }
 
 module.exports = new AuthController();

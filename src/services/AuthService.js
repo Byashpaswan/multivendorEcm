@@ -78,7 +78,7 @@ class AuthService {
         console.log("user : ",user)
 
         if (!user) {
-            throw new UserError("Invalid username or password");
+            throw new UserError("Invalid usernameId");
         }
 
         const verificationCode = await VerificationCode.findOne({ email });
@@ -95,6 +95,76 @@ class AuthService {
             role: user.role
         };
     }
+
+    async registeruser(req){
+
+        const {fullName,email,password,mobile} = req;
+
+        
+        let user = await User.findOne({ email });
+        if(user){
+            return res.status(409).json({error:"user Already exist"})
+        }
+
+        if (!user) {
+            user = new User({
+                email,
+                fullName,
+                role: 'ROLE_CUSTOMER', 
+                mobile:mobile||'', 
+                password: await bcrypt.hash(password, 10) 
+            });
+
+            await user.save();
+
+            const cart = new Cart({ user: user._id });
+            await cart.save();
+        }
+
+
+        const token = jwtProvider.createJwt({email})
+         console.log("token Is",token);
+
+        return token;
+
+
+    }
+
+    async login(req){
+        
+        try{
+        const {email,password} = req
+
+        const user = await User.findOne({ email },{password:1,email:1,role:1});
+
+        console.log("user : ",user)
+
+        if (!user) {
+            throw new UserError("Invalid usernameId");
+        }
+
+        let ismatch = await bcrypt.compare(password,user.password)
+        if(!ismatch){
+            return res.status(401).json({error:"wrong password"})
+        }
+
+        const token = jwtProvider.createJwt({email})
+
+        return {
+            message: "Login Success",
+            jwt: token,
+            role: user.role
+        };
+    }
+    catch(error){
+        console.log("error occurs in login :",error)
+        return res.status(402).json({error:"error in login"})
+    }
+
+
+    }
+
+    
 }
 
 module.exports = new AuthService();
