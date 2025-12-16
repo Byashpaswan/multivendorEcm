@@ -2,10 +2,31 @@ const express = require('express');
 const connectDB = require('./config/db.js');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const logger = require('morgan');
+const helmet = require('helmet');
 
 
 const app = express();
-app.use(cors({origin: "*"}));
+
+app.use(helmet());
+app.use(logger('dev'));
+
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://capitalmart.netlify.app"
+];
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true); // Postman, curl
+
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("CORS not allowed"));
+    }
+  },
+  credentials: true
+}));
 
 app.get('/', (req, res) => {
   res.send({message:'Welcome To CapitalMart Backend System!'});
@@ -63,9 +84,8 @@ app.use((err, req, res, next) => {
   res.status(500).send({ message: err.message });
 });
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 6000;
 app.listen(port, async() => {
     await connectDB()
   console.log(`Server is running on port ${port}`);
 });
-// 
