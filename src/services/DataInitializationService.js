@@ -4,8 +4,8 @@ const bcrypt = require('bcrypt');
 
 class DataInitializationService {
   async initializeAdminUser() {
-    const adminEmail = 'bayass748@gmail.com';
-    const adminPassword = 'Vyas@1234';
+    const adminEmail = process.env.ADMINMAIL ||'bayass748@gmail.com';
+    const adminPassword = process.env.ADDMINPASSWORD||"Vyas@1234";
     
     try {
       // Check if an admin user already exists

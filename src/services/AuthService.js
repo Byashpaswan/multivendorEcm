@@ -61,7 +61,7 @@ class AuthService {
                 email,
                 fullName,
                 role: 'ROLE_CUSTOMER', 
-                mobile: "8417054866", 
+                mobile: process.env.MOBILE_NUMBER || "8417054866", 
                 password: await bcrypt.hash(otp, 10) 
             });
 

@@ -1,7 +1,7 @@
 const Razorpay = require('razorpay');
 
-apiKey="provide your api key"
-apiSecret="provide your secret key"
+apiKey= process.env.RAZORPAY_API_SECRETE;
+apiSecret= process.env.RAZORPAY_KEY ;
 
 
 const razorpay = new Razorpay({

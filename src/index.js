@@ -10,6 +10,7 @@ const app = express();
 
 app.use(helmet());
 app.use(logger('dev'));
+app.disable('x-powered-by');
 
 const allowedOrigins = [
   "http://localhost:3000",
