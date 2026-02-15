@@ -170,7 +170,7 @@ src/
 
 ### 1️⃣ Clone Repository
 ```bash
-git clone https://github.com/your-username/ecommerce-backend.git
+git clone https://github.com/Byashpaswan/multivendorEcm.git
 cd ecommerce-backend
 ```
 
@@ -236,7 +236,7 @@ This project demonstrates:
 
 ---
 
-## 👨‍💻 Author
+## 👨‍💻 BYAS PASWAN
 
 Developed as part of a scalable backend system design and production-ready application learning journey.
 
