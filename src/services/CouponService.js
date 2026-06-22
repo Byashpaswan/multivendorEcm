@@ -16,7 +16,9 @@ const couponService = {
     try {
       // Find coupon by code
       const coupon = await Coupon.findOne({ code });
+      console.log("coupon--",coupon)
       const cart = await Cart.findOne({ user: user._id });
+      console.log("User--card--",cart)
 
       if (!coupon) {
         throw new CouponNotValidException('Coupon not found');

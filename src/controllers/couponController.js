@@ -5,8 +5,10 @@ class couponController {
   async applyCoupon(req, res) {
     try {
       const { apply, code, orderValue } = req.body;
+      console.log("req.body--",req.body)
 
       const user = await req.user
+      console.log("user--",user)
       let cart;
 
       if (apply === "true") {
