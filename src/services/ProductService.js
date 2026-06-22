@@ -104,7 +104,21 @@ class ProductService {
   }
 
   async searchProduct(query) {
-    return await Product.find({ title: new RegExp(query, "i") });
+    if (!query) {
+      return [];
+    }
+    const categories = await Category.find({
+      name: { $regex: query, $options: "i" }
+    });
+    const categoryIds = categories.map(c => c._id);
+
+    return await Product.find({
+      $or: [
+        { title: { $regex: query, $options: "i" } },
+        { description: { $regex: query, $options: "i" } },
+        { category: { $in: categoryIds } }
+      ]
+    }).populate("category").populate("seller");
   }
 
   async getAllProducts(req) {

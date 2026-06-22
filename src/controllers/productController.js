@@ -80,7 +80,7 @@ class SellerProductController {
   // Search for products by query
   async searchProduct(req, res) {
     try {
-      const query = req.query;
+      const { query } = req.query;
       const products = await ProductService.searchProduct(query);
       return res.status(200).json(products);
     } catch (error) {
