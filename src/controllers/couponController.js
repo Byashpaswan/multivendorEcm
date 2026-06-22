@@ -9,7 +9,6 @@ class couponController {
 
       const user = await req.user
       console.log("user--",user)
-      console.log("await req.useeer--",await req.useeer)
       let cart;
 
       if (apply === "true") {
