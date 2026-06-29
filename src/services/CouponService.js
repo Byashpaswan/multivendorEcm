@@ -51,7 +51,14 @@ const couponService = {
         cart.couponCode = code;
         cart.couponPrice = discount;
 
-        return await cart.save();
+        const savedCart = await cart.save();
+        return await Cart.findById(savedCart._id).populate({
+          path: "cartItems",
+          populate: {
+            path: "product",
+            populate: { path: "seller" }
+          }
+        });
       }
 
       throw new CouponNotValidException('Coupon not valid');
@@ -77,7 +84,14 @@ const couponService = {
       cart.couponCode = null;
       cart.couponPrice = 0;
 
-      return await cart.save();
+      const savedCart = await cart.save();
+      return await Cart.findById(savedCart._id).populate({
+        path: "cartItems",
+        populate: {
+          path: "product",
+          populate: { path: "seller" }
+        }
+      });
     } catch (error) {
       throw error;
     }
