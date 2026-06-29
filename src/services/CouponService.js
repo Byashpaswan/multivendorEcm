@@ -16,15 +16,15 @@ const couponService = {
     try {
       // Find coupon by code
       const coupon = await Coupon.findOne({ code });
-      console.log("coupon--",coupon)
+      console.log("coupon--", coupon);
       const cart = await Cart.findOne({ user: user._id });
-      console.log("User--card--",cart)
+      console.log("User--card--", cart);
 
       if (!coupon) {
         throw new CouponNotValidException('Coupon not found');
       }
 
-      if (user.usedCoupons.includes(coupon._id)) {
+      if (user.usedCoupons.some(id => id.equals(coupon._id))) {
         throw new CouponNotValidException('Coupon already used');
       }
 
@@ -37,7 +37,7 @@ const couponService = {
       const currentDate = new Date();
 
       if (
-        coupon.active &&
+        coupon.isActive &&
         currentDate >= coupon.validityStartDate &&
         currentDate <= coupon.validityEndDate
       ) {
@@ -56,7 +56,7 @@ const couponService = {
 
       throw new CouponNotValidException('Coupon not valid');
     } catch (error) {
-      throw new Error(error.message);
+      throw error;
     }
   },
 
@@ -72,14 +72,14 @@ const couponService = {
       user.usedCoupons = user.usedCoupons.filter((usedCoupon) => !usedCoupon.equals(coupon._id));
       await user.save();
 
-      const cart = await Cart.findOne({ userId: user._id });
+      const cart = await Cart.findOne({ user: user._id });
       cart.totalSellingPrice += cart.couponPrice; // Add the discount back to the cart's total
       cart.couponCode = null;
       cart.couponPrice = 0;
 
       return await cart.save();
     } catch (error) {
-      throw new Error(error.message);
+      throw error;
     }
   },
 

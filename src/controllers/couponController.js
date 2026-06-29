@@ -4,14 +4,17 @@ const UserService = require("../services/UserService");
 class couponController {
   async applyCoupon(req, res) {
     try {
-      const { apply, code, orderValue } = req.body;
-      console.log("req.body--",req.body)
+      const applyVal = req.query.apply !== undefined ? req.query.apply : req.body.apply;
+      const code = req.query.code || req.body.code;
+      const orderValue = Number(req.query.orderValue !== undefined ? req.query.orderValue : req.body.orderValue);
 
-      const user = await req.user
-      console.log("user--",user)
+      console.log("applyCoupon parameters:", { applyVal, code, orderValue });
+
+      const user = await req.user;
+      console.log("user--", user);
       let cart;
 
-      if (apply === "true") {
+      if (applyVal === "true" || applyVal === true) {
         cart = await couponService.applyCoupon(code, orderValue, user);
       } else {
         cart = await couponService.removeCoupon(code, user);
@@ -19,7 +22,8 @@ class couponController {
 
       return res.status(200).json(cart);
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      const statusCode = error.statusCode || 500;
+      res.status(statusCode).json({ message: error.message });
     }
   }
 
